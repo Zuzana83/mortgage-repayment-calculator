@@ -31,6 +31,11 @@ body {
     background-color: var(--slate-100);
 }
 
+fieldset {
+    padding: 0;
+    border: none;
+}
+
 .sr-only {
     position: absolute;
     width: 1px;
@@ -105,8 +110,10 @@ input[type=number] {
     border: none;
 }
 
-.form-input-wrapper {
-    margin-bottom: 2.4rem;
+.inputs-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 2.4rem;
 }
 
 label,
@@ -158,6 +165,10 @@ label,
     outline: none;
 }
 
+.form-input:hover {
+    cursor: pointer;
+}
+
 .input-word-wrapper:focus-within {
     outline-color: var(--lime);
 }
@@ -169,13 +180,16 @@ label,
 }
 
 .err-msg {
-    display: inline-block;
     color: var(--red);
     font-size: 1.4rem;
     font-weight: 500;
     line-height: 150%;
     margin-top: 1rem;
     display: none;
+}
+
+.err-msg.show {
+    display: inline-block;
 }
 
 .input-word-wrapper.error {
@@ -189,7 +203,7 @@ label,
 }
 
 .mortgage-type-wrapper {
-    margin-bottom: 2.4rem;
+    margin-block: 2.4rem;
 }
 
 .radio-input-wrapper {
@@ -310,3 +324,82 @@ label,
     line-height: 150%;
 }
 
+/* RESPONSIVE DESIGN CSS */
+@media screen and (min-width: 50rem) {
+   .mortgage-calculator-wrapper {
+        width: 82.5vw;
+        border-radius: calc(1.5 * var(--border-radius));
+        overflow: hidden;
+    }
+
+    .calculator-header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0;
+        margin-bottom: 4rem;
+    }
+
+    .mortgage-calculator {
+        padding: 4rem;
+    }
+
+    .inputs-grid {
+        grid-template-columns: 1fr 1fr;
+        column-gap: 2.4rem;
+    }
+
+    .column-span {
+        grid-column: span 2;
+    }
+
+    .mortgage-type-wrapper {
+        margin-block: 2.4rem 4rem;
+    }
+
+    .calculate-btn {
+        width: initial;
+        padding: 1.6rem 4.2rem;
+    }
+
+    .mortgage-repayments-result {
+        padding: 4rem;
+    }
+
+    .monthly-amount {
+        font-size: 5.6rem;
+    }
+}
+
+@media screen and (min-width: 68.75rem) {
+    .mortgage-calculator-wrapper {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .mortgage-repayments-result {
+        border-bottom-left-radius: calc(var(--border-radius)*8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .clear-btn:hover {
+        cursor: pointer;
+        color: var(--slate-900);
+    }
+
+    .input-word-wrapper:hover {
+        cursor: pointer;
+        outline-color: var(--slate-900);
+    }
+
+    .calculate-btn:hover {
+        cursor: pointer;
+        background-color: hsla(61, 70%, 52%, 0.5);
+    }
+
+    .radio-input-wrapper:hover {
+        cursor: pointer;
+        outline-color: var(--lime);
+    }
+}

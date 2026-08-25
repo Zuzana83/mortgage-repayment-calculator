@@ -21,58 +21,64 @@
     <section class="mortgage-calculator-section">
       <div class="mortgage-calculator-wrapper">
         <!-- Calculator -->
-        <div class="mortgage-calculator">
-          <header class="calculator-header">
-            <h2 class="calculator-title calculator-title-dark">Mortgage Calculator</h2>
-            <button type="button" class="clear-btn">Clear All</button>
-          </header>
-          <!-- Mortgage Amount -->
-          <div class="form-input-wrapper">
-            <label for="mortgageAmount">Mortgage Amount</label>
-            <div class="input-word-wrapper grid-reverse">
-              <span class="input-prefix">€</span>
-              <input type="number" class="form-input" id="mortgageAmount">
+        <form class="calculator-form" id="calculatorForm">
+            <div class="mortgage-calculator">
+            <header class="calculator-header">
+              <h2 class="calculator-title calculator-title-dark">Mortgage Calculator</h2>
+              <button type="reset" class="clear-btn">Clear All</button>
+            </header>
+            <div class="inputs-grid">
+              <!-- Mortgage Amount -->
+              <div class="form-input-wrapper column-span">
+                <label for="mortgageAmount">Mortgage Amount</label>
+                <div class="input-word-wrapper grid-reverse">
+                  <span class="input-prefix" aria-hidden="true">€</span>
+                  <input type="number" class="form-input" id="mortgageAmount" aria-describedby="mortgageAmountError">
+                </div>
+                <small class="err-msg" id="mortgageAmountError">This field is required</small>
+              </div>
+              <!-- Mortgage Term -->
+              <div class="form-input-wrapper">
+                <label for="mortgageTerm">Mortgage Term</label>
+                <div class="input-word-wrapper grid">
+                  <input type="number" class="form-input" id="mortgageTerm" aria-describedby="mortgageTermError" min="1" step="1" max="30">
+                  <span class="input-suffix" aria-hidden="true">years</span>
+                </div>
+                <small class="err-msg" id="mortgageTermError">This field is required</small>
+              </div>
+              <!-- Mortgage Rate -->
+              <div class="form-input-wrapper">
+                <label for="mortgageRate">Mortgage Rate</label>
+                <div class="input-word-wrapper grid">
+                  <input type="number" class="form-input" aria-describedby="mortgageRateError" id="mortgageRate" min="3" step="0.1">
+                  <span class="input-suffix" aria-hidden="true">%</span>
+                </div>
+                <small class="err-msg" id="mortgageRateError">This field is required</small>
+              </div>
             </div>
-            <small class="err-msg">This field is required</small>
+            <fieldset>
+              <!-- Mortgage Type -->
+            <div class="mortgage-type-wrapper">
+              <legend class="label">Mortgage Type</legend>
+              <!-- Repayment -->
+              <div class="radio-input-wrapper">
+                <input type="radio" name="mortgageType" class="radio-input" id="repayment" aria-describedby="mortgageTypeError">
+                <label for="repayment" class="radio-input-label">Repayment</label>
+              </div>
+              <!-- Interest Only -->
+              <div class="radio-input-wrapper">
+                <input type="radio" name="mortgageType" class="radio-input" id="interestOnly" aria-describedby="mortgageTypeError">
+                <label for="interestOnly" class="radio-input-label">Interest Only</label>
+              </div>
+              <small class="err-msg" id="mortgageTypeError">This field is required</small>
+              </div>
+            </fieldset>
+            <button type="submit" class="calculate-btn">
+              <img src="./assets/images/icon-calculator.svg" alt="calculator icon" />
+              Calculate Repayments
+            </button>
           </div>
-          <!-- Mortgage Term -->
-          <div class="form-input-wrapper">
-            <label for="mortgageTerm">Mortgage Term</label>
-            <div class="input-word-wrapper grid">
-              <input type="number" class="form-input" id="mortgageTerm" min="1" step="1" max="30">
-              <span class="input-suffix">years</span>
-            </div>
-            <small class="err-msg">This field is required</small>
-          </div>
-          <!-- Mortgage Rate -->
-          <div class="form-input-wrapper">
-            <label for="mortgageRate">Mortgage Rate</label>
-            <div class="input-word-wrapper grid">
-              <input type="number" class="form-input" id="mortgageRate" min="3" step="0.1">
-              <span class="input-suffix">%</span>
-            </div>
-            <small class="err-msg">This field is required</small>
-          </div>
-          <!-- Mortgage Type -->
-          <div class="mortgage-type-wrapper">
-            <h3 class="label">Mortgage Type</h3>
-            <!-- Repayment -->
-            <div class="radio-input-wrapper">
-              <input type="radio" name="mortgageType" class="radio-input" id="repayment">
-              <label for="repayment" class="radio-input-label">Repayment</label>
-            </div>
-            <!-- Interest Only -->
-            <div class="radio-input-wrapper">
-              <input type="radio" name="mortgageType" class="radio-input" id="interestOnly">
-              <label for="interestOnly" class="radio-input-label">Interest Only</label>
-            </div>
-            <small class="err-msg">This field is required</small>
-          </div>
-          <button type="button" class="calculate-btn">
-            <img src="./assets/images/icon-calculator.svg" alt="calculator icon" />
-            Calculate Repayments
-          </button>
-        </div>
+        </form>
         <!-- Repayments results -->
         <div class="mortgage-repayments-result">
           <!-- Empty results start -->
