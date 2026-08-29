@@ -33,7 +33,7 @@
                 <label for="mortgageAmount">Mortgage Amount</label>
                 <div class="input-word-wrapper grid-reverse">
                   <span class="input-prefix" aria-hidden="true">€</span>
-                  <input type="text" inputmode="decimal" class="form-input" id="mortgageAmount" aria-describedby="mortgageAmountError">
+                  <input type="text" inputmode="decimal" class="form-input" id="mortgageAmount" aria-describedby="mortgageAmountError" autocomplete="off">
                 </div>
                 <small class="err-msg" id="mortgageAmountError">This field is required</small>
               </div>
@@ -41,7 +41,7 @@
               <div class="form-input-wrapper">
                 <label for="mortgageTerm">Mortgage Term</label>
                 <div class="input-word-wrapper grid">
-                  <input type="text" class="form-input" inputmode="decimal" id="mortgageTerm" aria-describedby="mortgageTermError" min="1" step="1" max="30">
+                  <input type="text" class="form-input" inputmode="decimal" id="mortgageTerm" aria-describedby="mortgageTermError" autocomplete="off">
                   <span class="input-suffix" aria-hidden="true">years</span>
                 </div>
                 <small class="err-msg" id="mortgageTermError">This field is required</small>
@@ -50,7 +50,7 @@
               <div class="form-input-wrapper">
                 <label for="mortgageRate">Mortgage Rate</label>
                 <div class="input-word-wrapper grid">
-                  <input type="text" inputmode="decimal" class="form-input" aria-describedby="mortgageRateError" id="mortgageRate" min="3" step="0.1">
+                  <input type="text" inputmode="decimal" class="form-input" aria-describedby="mortgageRateError" id="mortgageRate" autocomplete="off">
                   <span class="input-suffix" aria-hidden="true">%</span>
                 </div>
                 <small class="err-msg" id="mortgageRateError">This field is required</small>

@@ -21,6 +21,11 @@ function showError(element, text) {
     errorMsgEl.textContent = text;
 }
 
+function cleanInputError(element) {
+    element.parentElement.classList.remove("error");
+    element.parentElement.nextElementSibling.classList.remove("show");
+}
+
 function cleanAllErrors() {
     const errorElements = document.querySelectorAll(".error");
     for(const err of errorElements) {
@@ -35,14 +40,14 @@ function cleanRadioInputsError(el) {
     errMsgEl.classList.remove("show");
 }
 
-function validateInputValue(element) {
+function validateInputValue(element, allowZero) {
     const elToCheck = element.value.trim();
     if(!elToCheck) {
        showError(element, "This field is required");
        return;
     }
     const convertedEl = Number(elToCheck);
-    if(isNaN(convertedEl) || convertedEl < 0) {
+    if(isNaN(convertedEl) || convertedEl < 0 || (convertedEl === 0 && !allowZero)) {
         showError(element, "Insert valid number");
         return;
     };
@@ -54,7 +59,7 @@ function validateRadioSelection() {
     showError(interestOnlyRadioInputEl, "Please select a mortgage type");
     return;
   }
-  return repaymentRadioInputEl.checked
+  return repaymentRadioInputEl.checked;
 }
 
 function calculateRepaymentAmount(mortgageData) {
@@ -67,6 +72,11 @@ function calculateRepaymentAmount(mortgageData) {
     let totalPayment;
 
     if(mortgageData.isRepaymentType) {
+        if(monthlyRate === 0) {
+            monthlyPayment = borrowedAmount / numOfPayments;
+            totalPayment = borrowedAmount;
+            return {monthlyPayment, totalPayment};
+        }
         // Repayment total sum
         monthlyPayment = borrowedAmount * (monthlyRate * compoundFactor) / (compoundFactor - 1);
         totalPayment = monthlyPayment * numOfPayments;
@@ -91,7 +101,8 @@ function displayMortgageRepayments(result) {
     resultsCompletedTitleEl.focus();  
 }
 
-function handleArrowSteps(element, stepAmount, decimals, mathOperation) {
+function handleArrowSteps(element, stepAmount, decimals, mathOperation, minValue) {
+    cleanInputError(element);
     const currValue = Number(element.value);
     let newValue;
 
@@ -101,6 +112,7 @@ function handleArrowSteps(element, stepAmount, decimals, mathOperation) {
         newValue = currValue - stepAmount;
     }
 
+    newValue = Math.max(newValue, minValue);
     return newValue.toFixed(decimals);
 }
 
@@ -108,9 +120,9 @@ calculatorFormEl.addEventListener("submit", function(e) {
     e.preventDefault();
     cleanAllErrors();
     const mortgageData = {
-        amount: validateInputValue(mortgageAmountEl),
-        term: validateInputValue(mortgageTermEl),
-        rate: validateInputValue(mortgageRateEl), 
+        amount: validateInputValue(mortgageAmountEl, false),
+        term: validateInputValue(mortgageTermEl, false),
+        rate: validateInputValue(mortgageRateEl, true), 
         isRepaymentType: validateRadioSelection()
     };
 
@@ -123,21 +135,20 @@ calculatorFormEl.addEventListener("submit", function(e) {
 
 for(const input of inputsArray) {
     input.addEventListener("input", function(e) {
-            input.parentElement.classList.remove("error");
-            input.parentElement.nextElementSibling.classList.remove("show");
+            cleanInputError(e.target);
     });
 }
 
 mortgageAmountEl.addEventListener("keydown", function(e) {
     if(e.key === "ArrowUp") {
         e.preventDefault();
-        const newValue = handleArrowSteps(e.target, 1, 0, "add");
+        const newValue = handleArrowSteps(e.target, 1, 0, "add", 1);
         e.target.value = newValue;
     }
 
     if(e.key === "ArrowDown") {
         e.preventDefault();
-        const newValue = handleArrowSteps(e.target, 1, 0, "subtract");
+        const newValue = handleArrowSteps(e.target, 1, 0, "subtract", 1);
         e.target.value = newValue;
     }
 });
@@ -145,13 +156,13 @@ mortgageAmountEl.addEventListener("keydown", function(e) {
 mortgageTermEl.addEventListener("keydown", function(e) {
     if(e.key === "ArrowUp") {
         e.preventDefault();
-        const newValue = handleArrowSteps(e.target, 1, 0, "add");
+        const newValue = handleArrowSteps(e.target, 1, 0, "add", 1);
         e.target.value = newValue;
     }
 
     if(e.key === "ArrowDown") {
         e.preventDefault();
-        const newValue = handleArrowSteps(e.target, 1, 0, "subtract");
+        const newValue = handleArrowSteps(e.target, 1, 0, "subtract", 1);
         e.target.value = newValue;
     }
 });
@@ -159,13 +170,13 @@ mortgageTermEl.addEventListener("keydown", function(e) {
 mortgageRateEl.addEventListener("keydown", function(e) {
     if(e.key === "ArrowUp") {
         e.preventDefault();
-         const newValue = handleArrowSteps(e.target, 0.1, 1, "add");
+         const newValue = handleArrowSteps(e.target, 0.1, 1, "add", 0);
          e.target.value = newValue;
     }
 
     if(e.key === "ArrowDown") {
         e.preventDefault();
-        const newValue = handleArrowSteps(e.target, 0.1, 1, "subtract");
+        const newValue = handleArrowSteps(e.target, 0.1, 1, "subtract", 0);
         e.target.value = newValue;
     }
 });
