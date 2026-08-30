@@ -35,7 +35,7 @@ Users should be able to:
 ### Links
 
 - Solution URL: [Add your solution URL here](https://github.com/Zuzana83/mortgage-repayment-calculator)
-- Live Site URL: [Add your live site URL here](https://your-live-site-url.com)
+- Live Site URL: [Add your live site URL here](https://zuzana83.github.io/mortgage-repayment-calculator/)
 
 ## My process
 
