@@ -19,11 +19,13 @@ function showError(element, text) {
     const errorMsgEl = parentEl.nextElementSibling;
     errorMsgEl.classList.add("show");
     errorMsgEl.textContent = text;
+    element.setAttribute("aria-invalid", "true");
 }
 
 function cleanInputError(element) {
     element.parentElement.classList.remove("error");
     element.parentElement.nextElementSibling.classList.remove("show");
+    element.removeAttribute("aria-invalid");
 }
 
 function cleanAllErrors() {
@@ -31,12 +33,21 @@ function cleanAllErrors() {
     for(const err of errorElements) {
         err.classList.remove("error");
         err.nextElementSibling.classList.remove("show");
+        err.querySelector(".form-input, .radio-input").removeAttribute("aria-invalid");
     }
 }
 
 function cleanRadioInputsError(el) {
-    const parentEl = el.parentElement.parentElement;
-    const errMsgEl = parentEl.querySelector(".err-msg");
+    // const parentEl = el.parentElement.parentElement;
+    const fieldsetEl = el.parentElement.parentElement.parentElement;
+    const invalidInputWrappers = fieldsetEl.querySelectorAll(".error");
+
+    invalidInputWrappers.forEach(wrapper => {
+        wrapper.classList.remove("error");
+        wrapper.querySelector(".radio-input").removeAttribute("aria-invalid");
+    });
+
+    const errMsgEl = fieldsetEl.querySelector(".err-msg");
     errMsgEl.classList.remove("show");
 }
 
@@ -56,7 +67,15 @@ function validateInputValue(element, allowZero) {
 
 function validateRadioSelection() {
   if (repaymentRadioInputEl.checked === false && interestOnlyRadioInputEl.checked === false) {
-    showError(interestOnlyRadioInputEl, "Please select a mortgage type");
+    repaymentRadioInputEl.parentElement.classList.add("error");
+    interestOnlyRadioInputEl.parentElement.classList.add("error");
+
+    repaymentRadioInputEl.setAttribute("aria-invalid", "true");
+    interestOnlyRadioInputEl.setAttribute("aria-invalid", "true");
+
+    const errMsgEl = interestOnlyRadioInputEl.parentElement.nextElementSibling;
+    errMsgEl.classList.add("show");
+
     return;
   }
   return repaymentRadioInputEl.checked;
